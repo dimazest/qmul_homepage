@@ -32,6 +32,11 @@ STATIC_PATHS = (
     'static',
 )
 
+STATIC_PATHS = ('images', 'extras/CNAME')
+EXTRA_PATH_METADATA = {
+    'extras/CNAME': {'path': 'CNAME'}
+}
+
 DEFAULT_PAGINATION = False
 
 # Uncomment following line if you want document-relative URLs when developing
