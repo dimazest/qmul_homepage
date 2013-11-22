@@ -3,6 +3,7 @@ The routine of Machine Learning experiments
 ===========================================
 
 :date: 2013-11-23 12:00
+:tags: ideas
 
 A couple of months ago I started a Ph.D. at Queen Mary University of London.
 It's too early to say what my work is exactly about, but it is somewhere in the
@@ -40,18 +41,18 @@ Switchboard.
 __ http://compprag.christopherpotts.net/swda.html
 
 Unfortunately, there is no way of feeding random human-readable data to a
-classifier and expecting a meaningful result. The data has to be transformed
-into feature vectors and their labels. Usually the transformed data is stored
-again in a CSV file. However, I find it's much more convenient to store in a
-more sophisticated, probably binary form.
+classifier. The data has to be transformed into feature vectors and their
+labels. Usually the transformed data is stored also in a CSV file. However, I
+find it's much more convenient to store in a richer file format.
 
 Pandas provides powerful `IO functionality`__. I would suggest to go with a
-HDF5 store, because it's designed to be fast. What to store in the file depends
-on the classifier and the task. I had to build a large sparse matrix, where
-features are words and documents are utterances. I don't store the matrix
-directly, but I store two arrays, one contains the values of the matrix,
-another one contains their coordinates in the matrix. It is highly inspired by
-the `sparse matrix implementation`__ in scipy::
+HDF5 store, because it's designed to be fast and provides a simple API. What to
+store in the file depends on the classifier, the task and the libraries you
+use. I had to build a large sparse matrix, where features are words and
+documents are utterances. I don't store the matrix directly, but I store two
+arrays, one contains the values of the matrix, another one contains their
+coordinates in the matrix. It is highly inspired by the `sparse matrix
+implementation`__ in scipy::
 
     This can be instantiated in several ways:
 
@@ -62,6 +63,7 @@ the `sparse matrix implementation`__ in scipy::
 
 __ http://pandas.pydata.org/pandas-docs/stable/io.html
 __ http://docs.scipy.org/doc/scipy/reference/generated/scipy.sparse.csr_matrix.html#scipy.sparse.csr_matrix
+
 
 The library I use to solve the task dictates the input format. The code that
 performs model training and classification is almost free from converting the
@@ -83,9 +85,7 @@ the input data.
 Showing the results
 -------------------
 
-This easily getting more complex as you demand more and more from the
-evaluation.
-
+Result representation gets more complex as you demand more from the evaluation.
 The simplest way is to show the metric you care about in the end of the run, so
 in the terminal you will see something like::
 
@@ -94,29 +94,28 @@ in the terminal you will see something like::
 
 Which gives so little context, that understanding what the experiment was about
 is next to impossible. An you will have to store this somewhere (probably by
-copy pasting to some file and giving a brief comment what it's about), so you
-can write an email to your supervisor.
+copying and pasting to some file and giving a brief comment what it's about),
+so you can write an email to your supervisor.
 
 It is possible to get more evaluation metrics. I got inspired by the
-`scikit-learn parameter estimation with grid search example`__.
-
-The example gives very detailed information of the evaluation step, though it
-puts together calculation of the results and the representation.
+`scikit-learn parameter estimation with grid search example`__, which gives
+very detailed information of the evaluation step, though it puts the
+calculation of the results and the representation in the same code.
 
 __ http://scikit-learn.org/stable/auto_examples/grid_search_digits.html#example-grid-search-digits-py
 
-A standard way of splitting these two is to use a template engine. The values
-for the template are prepared in the code, and then passed to the template to
-be rendered. Now it's up to template how to represent the data. It can be an
-regular text file, an HTML page.
+A standard way of splitting data from representation is to use a template
+engine. The values for the template are prepared in the code, and then passed
+to the template to be rendered. Now it's up to template how to represent the
+data. It can be an regular text file, an HTML page.
 
-HTML pages are great for sharing, remember, that finally I have to send the
-results to my supervisors, but the text format is great for development and
-debugging. Keeping two versions is an overhead I can't afford, so I decided to
-use reStructuredText. `reStructuredText`_ is a human readable formating format.
-With RST you can render tables, text styles, headers, links and much more. It
-is possible to render rst documents as HTML pages, PDF, or even LaTeX. I used
-`Jinja2`_ as the templating engine.
+HTML pages are great for sharing. Remember, that finally I have to send the
+results to my supervisors, but the text based format is great during
+development. Keeping two versions is an overhead I can't afford, so I decided
+to use `reStructuredText`_. reStructuredText is a human readable markup
+language. With RST you can render tables, text styles, headers, links and much
+more. It is possible to render RST documents as HTML pages, PDF, or even LaTeX.
+I use `Jinja2`_ as the templating engine.
 
 Inside of my template I show some metadata, so if I find a page with a printed
 report in a year, I'll know what it is about.
