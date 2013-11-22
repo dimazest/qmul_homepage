@@ -3,6 +3,7 @@ bin/
 include/
 lib/
 
+output/
 *.pid
 
 __pycache__/
