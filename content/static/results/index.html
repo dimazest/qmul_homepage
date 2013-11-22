@@ -1,0 +1,642 @@
+<!--?xml version="1.0" encoding="utf-8" ?-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="generator" content="Docutils 0.11: http://docutils.sourceforge.net/">
+<title>Hyper parameter estimation</title>
+<style type="text/css">
+
+/*
+ * Stylesheet for ReStructuredText by Marius Gedminas.
+ * (I didn't like the default one)
+ *
+ * XXX: I'm doing it incorrectly:
+ * http://docutils.sourceforge.net/docs/howto/html-stylesheets.html
+ */
+
+body {
+    font-family: Verdana, sans;
+    margin: 3em;
+    max-width: 50em;
+}
+
+p {
+    text-align: justify;
+}
+p.rubric {
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Monospace text */
+
+tt {
+    font-family: Andale Mono, Courier New, monospace;
+    color: #234F32;
+}
+
+/* Definition lists */
+
+dt {
+    font-weight: bold;
+}
+dd {
+    margin-bottom: 1em;
+}
+
+/* Admonitions */
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+    font-weight: bold;
+}
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+    color: red;
+    font-weight: bold;
+}
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+    margin: 2em;
+    background: #fff7cc;
+    padding: 1em;
+}
+
+/* Doctest blocks */
+
+pre.doctest-block {
+    color: #008000;
+}
+
+/* Literal blocks */
+
+pre.literal-block {
+    color: #AA4400;
+    margin-left: 40px;
+}
+
+/* Indented quotations */
+
+blockquote > p {
+    color: #000080;
+}
+
+/* Tables */
+
+table {
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: none;
+    border-right: none;
+    border-collapse: collapse;
+    margin: 0.5em 0;
+}
+tr:first-child > th {
+    border-top: none;
+}
+th {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    text-align: left;
+}
+tr:first-child > td {
+    border-top: 1px solid black;
+}
+table[rules=none] tr:first-child > td {
+    border-top: none;
+}
+td {
+    border-top: hidden;
+    border-left: hidden;
+    border-right: hidden;
+    border-bottom: none;
+    padding: 1px 4px;
+}
+td, th {
+    padding-left: 1em;
+}
+td:first-child,
+th:first-child {
+    padding-left: 4px;
+}
+
+td p:first-child {
+    margin-top: 0;
+}
+th.field-name, th.docinfo-name {
+  white-space: nowrap;
+  padding-left: 0;
+}
+
+/* Table of Contents */
+
+p.topic-title {
+    font-weight: bold;
+    font-size: 120%;
+}
+
+a.toc-backref {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Footnotes */
+
+a.footnote-reference,
+a.fn-backref {
+    font-size: xx-small;
+    vertical-align: super;
+    line-height: normal;
+    text-decoration: none;
+}
+a.footnote-reference:hover,
+a.fn-backref:hover {
+    text-decoration: underline;
+}
+
+table.footnote {
+    border: none;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: 20px;
+    margin-right: 0.5em;
+    font-size: small;
+}
+table.footnote td {
+    border: none;
+    padding-top: 1em;
+    padding-left: 0px;
+}
+table.footnote tr:first-child > td.label {
+    border-top: 1px solid #eee;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+table.footnote + table.footnote {
+    margin-top: 0;
+}
+table.footnote + table.footnote td {
+    border: none;
+    padding-top: 0;
+}
+
+/* System messages (aka errors) */
+
+div.system-messages h1 {
+    color: red;
+}
+div.system-message {
+    border-left: 3px double red;
+    margin-left: 19px;
+    padding-left: 19px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: red;
+}
+div.system-message p.system-message-title {
+    margin-top: 0;
+    font-weight: bold;
+}
+
+/* Sidebars */
+
+div.sidebar {
+    margin: 2em;
+    background: #fff7cc;
+    padding: 1em;
+    width: 40%;
+    float: right;
+    clear: right;
+}
+p.sidebar-title {
+    font-weight: bold;
+    font-size: larger;
+}
+p.sidebar-subtitle {
+    font-weight: bold;
+}
+
+/* Rules taken from the original */
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+div.topic {
+  margin: 2em }
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+span.option {
+  white-space: nowrap }
+
+span.problematic {
+  color: red }
+
+ul.auto-toc {
+  list-style-type: none }
+
+/* ... many more are missing ... */
+
+</style>
+<style type="text/css">
+pre .hll { background-color: #ffffcc }
+pre  { background: #ffffff; }
+pre .c { color: #888888 } /* Comment */
+pre .err { color: #FF0000; background-color: #FFAAAA } /* Error */
+pre .k { color: #008800; font-weight: bold } /* Keyword */
+pre .o { color: #333333 } /* Operator */
+pre .cm { color: #888888 } /* Comment.Multiline */
+pre .cp { color: #557799 } /* Comment.Preproc */
+pre .c1 { color: #888888 } /* Comment.Single */
+pre .cs { color: #cc0000; font-weight: bold } /* Comment.Special */
+pre .gd { color: #A00000 } /* Generic.Deleted */
+pre .ge { font-style: italic } /* Generic.Emph */
+pre .gr { color: #FF0000 } /* Generic.Error */
+pre .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+pre .gi { color: #00A000 } /* Generic.Inserted */
+pre .go { color: #888888 } /* Generic.Output */
+pre .gp { color: #c65d09; font-weight: bold } /* Generic.Prompt */
+pre .gs { font-weight: bold } /* Generic.Strong */
+pre .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+pre .gt { color: #0044DD } /* Generic.Traceback */
+pre .kc { color: #008800; font-weight: bold } /* Keyword.Constant */
+pre .kd { color: #008800; font-weight: bold } /* Keyword.Declaration */
+pre .kn { color: #008800; font-weight: bold } /* Keyword.Namespace */
+pre .kp { color: #003388; font-weight: bold } /* Keyword.Pseudo */
+pre .kr { color: #008800; font-weight: bold } /* Keyword.Reserved */
+pre .kt { color: #333399; font-weight: bold } /* Keyword.Type */
+pre .m { color: #6600EE; font-weight: bold } /* Literal.Number */
+pre .s { background-color: #fff0f0 } /* Literal.String */
+pre .na { color: #0000CC } /* Name.Attribute */
+pre .nb { color: #007020 } /* Name.Builtin */
+pre .nc { color: #BB0066; font-weight: bold } /* Name.Class */
+pre .no { color: #003366; font-weight: bold } /* Name.Constant */
+pre .nd { color: #555555; font-weight: bold } /* Name.Decorator */
+pre .ni { color: #880000; font-weight: bold } /* Name.Entity */
+pre .ne { color: #FF0000; font-weight: bold } /* Name.Exception */
+pre .nf { color: #0066BB; font-weight: bold } /* Name.Function */
+pre .nl { color: #997700; font-weight: bold } /* Name.Label */
+pre .nn { color: #0e84b5; font-weight: bold } /* Name.Namespace */
+pre .nt { color: #007700 } /* Name.Tag */
+pre .nv { color: #996633 } /* Name.Variable */
+pre .ow { color: #000000; font-weight: bold } /* Operator.Word */
+pre .w { color: #bbbbbb } /* Text.Whitespace */
+pre .mf { color: #6600EE; font-weight: bold } /* Literal.Number.Float */
+pre .mh { color: #005588; font-weight: bold } /* Literal.Number.Hex */
+pre .mi { color: #0000DD; font-weight: bold } /* Literal.Number.Integer */
+pre .mo { color: #4400EE; font-weight: bold } /* Literal.Number.Oct */
+pre .sb { background-color: #fff0f0 } /* Literal.String.Backtick */
+pre .sc { color: #0044DD } /* Literal.String.Char */
+pre .sd { color: #DD4422 } /* Literal.String.Doc */
+pre .s2 { background-color: #fff0f0 } /* Literal.String.Double */
+pre .se { color: #666666; font-weight: bold; background-color: #fff0f0 } /* Literal.String.Escape */
+pre .sh { background-color: #fff0f0 } /* Literal.String.Heredoc */
+pre .si { background-color: #eeeeee } /* Literal.String.Interpol */
+pre .sx { color: #DD2200; background-color: #fff0f0 } /* Literal.String.Other */
+pre .sr { color: #000000; background-color: #fff0ff } /* Literal.String.Regex */
+pre .s1 { background-color: #fff0f0 } /* Literal.String.Single */
+pre .ss { color: #AA6600 } /* Literal.String.Symbol */
+pre .bp { color: #007020 } /* Name.Builtin.Pseudo */
+pre .vc { color: #336699 } /* Name.Variable.Class */
+pre .vg { color: #dd7700; font-weight: bold } /* Name.Variable.Global */
+pre .vi { color: #3333BB } /* Name.Variable.Instance */
+pre .il { color: #0000DD; font-weight: bold } /* Literal.Number.Integer.Long */
+</style>
+</head>
+<body>
+<div class="document" id="hyper-parameter-estimation">
+<h1 class="title">Hyper parameter estimation</h1>
+<table class="docinfo" frame="void" rules="none">
+<colgroup><col class="docinfo-name">
+<col class="docinfo-content">
+</colgroup><tbody valign="top">
+<tr class="field"><th class="docinfo-name">paper:</th><td class="field-body">Serafin et al. 2003</td>
+</tr>
+<tr class="field"><th class="docinfo-name">accuracy:</th><td class="field-body">0.45</td>
+</tr>
+<tr class="field"><th class="docinfo-name">best estimator:</th><td class="field-body">PlainLSA(k=50)</td>
+</tr>
+<tr class="field"><th class="docinfo-name">ngram length:</th><td class="field-body">1</td>
+</tr>
+<tr class="field"><th class="docinfo-name">documetns:</th><td class="field-body">1000</td>
+</tr>
+<tr class="field"><th class="docinfo-name">features:</th><td class="field-body">1250</td>
+</tr>
+<tr class="field"><th class="docinfo-name">command:</th><td class="field-body">bin/corpora serafin03 plain-lsa -p swda-1000items-1gram.h5</td>
+</tr>
+</tbody>
+</table>
+<p>Grid accuracy scores on development set:</p>
+<pre class="literal-block">0.412 (+/-0.043) for {'k': 3}
+0.446 (+/-0.036) for {'k': 10}
+0.458 (+/-0.045) for {'k': 40}
+0.462 (+/-0.049) for {'k': 50}
+0.46 (+/-0.045) for {'k': 60}
+0.436 (+/-0.051) for {'k': 100}
+</pre>
+<div class="section" id="evaluation-results">
+<h1>Evaluation results</h1>
+<table class="docutils" border="1">
+<colgroup>
+<col width="33%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+<col width="17%">
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">tag</th>
+<th class="head">precision</th>
+<th class="head">recall</th>
+<th class="head">f1-score</th>
+<th class="head">support</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>%</td>
+<td>0.327</td>
+<td>0.621</td>
+<td>0.429</td>
+<td>29</td>
+</tr>
+<tr><td>+</td>
+<td>0.424</td>
+<td>0.438</td>
+<td>0.431</td>
+<td>32</td>
+</tr>
+<tr><td>^2</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>^g</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>^h</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>2</td>
+</tr>
+<tr><td>^q</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>2</td>
+</tr>
+<tr><td>aa</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>21</td>
+</tr>
+<tr><td>aap_am</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0</td>
+</tr>
+<tr><td>ad</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>b</td>
+<td>0.773</td>
+<td>0.836</td>
+<td>0.803</td>
+<td>61</td>
+</tr>
+<tr><td>b^m</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>2</td>
+</tr>
+<tr><td>ba</td>
+<td>0.167</td>
+<td>0.143</td>
+<td>0.154</td>
+<td>7</td>
+</tr>
+<tr><td>bf</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>5</td>
+</tr>
+<tr><td>bh</td>
+<td>0.571</td>
+<td>1.000</td>
+<td>0.727</td>
+<td>4</td>
+</tr>
+<tr><td>bk</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>br</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>2</td>
+</tr>
+<tr><td>fo_o_fw_"_by_bc</td>
+<td>0.143</td>
+<td>0.250</td>
+<td>0.182</td>
+<td>4</td>
+</tr>
+<tr><td>h</td>
+<td>0.083</td>
+<td>0.167</td>
+<td>0.111</td>
+<td>6</td>
+</tr>
+<tr><td>na</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>nn</td>
+<td>0.200</td>
+<td>0.500</td>
+<td>0.286</td>
+<td>2</td>
+</tr>
+<tr><td>no</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>ny</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>7</td>
+</tr>
+<tr><td>oo_co_cc</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>qh</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>qo</td>
+<td>0.333</td>
+<td>0.200</td>
+<td>0.250</td>
+<td>5</td>
+</tr>
+<tr><td>qrr</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>1</td>
+</tr>
+<tr><td>qw</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>3</td>
+</tr>
+<tr><td>qy</td>
+<td>0.125</td>
+<td>0.067</td>
+<td>0.087</td>
+<td>15</td>
+</tr>
+<tr><td>qy^d</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>0.000</td>
+<td>3</td>
+</tr>
+<tr><td>sd</td>
+<td>0.630</td>
+<td>0.515</td>
+<td>0.567</td>
+<td>198</td>
+</tr>
+<tr><td>sv</td>
+<td>0.315</td>
+<td>0.311</td>
+<td>0.313</td>
+<td>74</td>
+</tr>
+<tr><td>x</td>
+<td>0.636</td>
+<td>1.000</td>
+<td>0.778</td>
+<td>7</td>
+</tr>
+<tr><td>weighted avg/total</td>
+<td>0.462</td>
+<td>0.450</td>
+<td>0.449</td>
+<td>500</td>
+</tr>
+</tbody>
+</table>
+<p>The model is trained on the full development set.
+The scores are computed on the full evaluation set.</p>
+</div>
+</div>
+
+<script type="text/javascript">
+var xmlHttp = null;
+window.onload = function () {
+    setTimeout(function () {
+        if (window.XMLHttpRequest) {
+            xmlHttp = new XMLHttpRequest();
+        } else if (window.ActiveXObject) {
+            xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
+        }
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState == 4 && xmlHttp.status == '200') {
+                window.location.reload(true);
+            }
+        }
+        xmlHttp.open('HEAD', '/polling?pathname=' + location.pathname + '&mtime=1385125441', true);
+        xmlHttp.send(null);
+    }, 0);
+}
+window.onbeforeunload = function () {
+    xmlHttp.abort();
+}
+</script>
+
+
+</body></html>
