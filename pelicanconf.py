@@ -3,38 +3,38 @@
 from __future__ import unicode_literals
 
 AUTHOR = 'Dmitrijs Milajevs'
-SITENAME = 'Speaking Python'
+SITENAME = 'Dmitrijs Milajevs'
 SITEURL = ''
 
 TIMEZONE = 'Europe/London'
 
 DEFAULT_LANG = 'en'
+THEME = 'notmyidea'
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
 CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
+DISPLAY_PAGES_ON_MENU = True
+
 # Blogroll
 LINKS = (
-    ('Pelican', 'http://getpelican.com/'),
-    ('Python.org', 'http://python.org/'),
-    ('Jinja2', 'http://jinja.pocoo.org/'),
+    ('Theory group at QMUL', 'http://theory.eecs.qmul.ac.uk/'),
+    ('Cogsci group at QMUL', 'http://cogsci.eecs.qmul.ac.uk/'),
+    ('The Python Club', 'https://www.facebook.com/groups/723364331026623/'),
 )
 
 # Social widget
 SOCIAL = (
     ('Github', 'https://github.com/dimazest'),
+    ('Facebook', 'https://www.facebook.com/dimazest'),
 )
 
 STATIC_PATHS = (
     'images',
     'static',
 )
-
-EXTRA_PATH_METADATA = {
-    'extras/CNAME': {'path': 'CNAME'}
-}
 
 DEFAULT_PAGINATION = False
 
