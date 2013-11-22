@@ -3,20 +3,19 @@ The routine of Machine Learning experiments
 ===========================================
 
 :date: 2013-11-23 12:00
-:status: draft
 
-A couple of months ago I've started a PhD at Queen Mary University of London.
-It's too early to say what my topic is exactly, but it will be somewhere in the
+A couple of months ago I started a Ph.D. at Queen Mary University of London.
+It's too early to say what my work is exactly about, but it is somewhere in the
 intersection of compositional distributional semantics and dialogs. My first
 task was to implement a dialog act tagging model which is described in `Latent
 Semantic Analysis for dialog act classification`__ by Riccardo Serafin and
-others. Later I applied the method on the Switchboard dialog corpus and
+others. Later, I applied the method on the Switchboard dialog corpus and
 reported the results to my supervisors.
 
 __ http://acl.ldc.upenn.edu/N/N03/N03-2032.pdf
 
-The steps I performed seem to be very typical for any machine learning related
-task, so it worth to look closer to it. Here are the steps:
+The steps I performed seem to be very typical for many machine learning tasks,
+so it worth to look closer to them. Here are the steps:
 
 1. Obtain labeled data.
 2. Transform it to the appropriate format, so it can be fed up to a classifier.
@@ -33,7 +32,7 @@ Obtaining the data and storing extracted features
 It's not that hard to obtain the data, most probably there is some well known
 data set, which is used by everyone in the field. It is usually available  in
 several files in the CSV format (CSV is somewhat human readable and it can be
-processed by virtually every language). For a more complicated data structures,
+processed by virtually every language). For more sophisticated data structures,
 there might be a wrapper that provides a simplified access to the data. For
 example, `swda.py`__ provides a convenient way of iterating over utterances in
 Switchboard.
