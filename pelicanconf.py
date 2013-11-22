@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 AUTHOR = 'Dmitrijs Milajevs'
 SITENAME = 'Dmitrijs Milajevs'
+SITESUBTITLE = 'at Queen Mary University of London'
 SITEURL = ''
 
 TIMEZONE = 'Europe/London'
@@ -27,9 +28,16 @@ LINKS = (
 
 # Social widget
 SOCIAL = (
-    ('Github', 'https://github.com/dimazest'),
+    ('Twitter', 'https://twitter.com/dimazest'),
     ('Facebook', 'https://www.facebook.com/dimazest'),
+    ('Github', 'https://github.com/dimazest'),
+    ('Bitbucket', 'https://bitbucket.org/dimazest'),
 )
+
+TWITTER_USERNAME = '@dimazest'
+DISQUS_SITENAME = 'dmitrijsmilajevs-qmul'
+GITHUB_URL = 'https://github.com/dimazest'
+GOOGLE_ANALYTICS = 'UA-1173947-7'
 
 STATIC_PATHS = (
     'images',
