@@ -10,7 +10,18 @@ SITEURL = ''
 TIMEZONE = 'Europe/London'
 
 DEFAULT_LANG = 'en'
-THEME = 'notmyidea'
+# THEME = 'notmyidea'
+THEME = 'flasky'
+
+SECTIONS = (
+    ('Home', 'index.html'),
+    ('Blog', 'category/articles.html'),
+    # ('Archive', 'archives.html'),
+    # ('Tags', 'tags.html'),
+    # ('Projects', 'pages/projects.html'),
+    # ('Talks', 'pages/talks.html'),
+    # ('About', 'pages/about-me.html'),
+)
 
 # Feed generation is usually not desired when developing
 FEED_ALL_ATOM = None
@@ -34,10 +45,14 @@ SOCIAL = (
     ('Bitbucket', 'https://bitbucket.org/dimazest'),
 )
 
-TWITTER_USERNAME = '@dimazest'
+MAIL_USERNAME = 'd.milajevs'
+MAIL_HOST = 'qmul.ac.uk'
+
+TWITTER_USERNAME = 'dimazest'
 DISQUS_SITENAME = 'dmitrijsmilajevs-qmul'
 GITHUB_URL = 'https://github.com/dimazest'
 GOOGLE_ANALYTICS = 'UA-1173947-7'
+LINKEDIN_URL = 'http://www.linkedin.com/in/dmitrijsmilajevs'
 
 STATIC_PATHS = (
     'images',
