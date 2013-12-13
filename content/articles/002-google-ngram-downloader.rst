@@ -45,3 +45,7 @@ P.S. While I was looking for the package on PyPI, I figured out that there is a
 the code is different :)
 
 __ http://blog.barvinograd.com/2011/12/google-n-gram-downloader/
+
+Update: The dataset is avalable on `Amazon AWS`__.
+
+__ http://aws.amazon.com/datasets/8172056142375670
