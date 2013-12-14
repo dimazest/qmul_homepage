@@ -3,7 +3,7 @@ Google ngram downloader
 =======================
 
 :date: 2013-11-28 10:30
-:tags: tools
+:tags: tools, google
 
 I'm building a word co-occurrence matrix out of `The Google Books Ngram Viewer
 dataset`__. The dataset for 5 grams is so large, that I don't know if I have
