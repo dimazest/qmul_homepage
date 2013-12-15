@@ -94,7 +94,7 @@ __ http://www.pygrunn.org/
     I'm trying to be hip, before leaving to Brazil. Thanks, Òscar Vilaplana for
     the picture!
 
-In Brazil, I presented the paper at a `workshop`__ collocated with `WWWW
+In Brazil, I presented the paper at a `workshop`__ collocated with `WWW
 2013`__.
 
 __ http://www.ramss.ws/2013/
@@ -112,5 +112,5 @@ to ``poultry``.
 
 P.P.S. And I would like to additionally thank Gosse Bouma (for my thesis
 supervision), Karol Kuczmarski (for useful discussion), Paylogic crew (for
-support), Alexandre Rodríguez (for organizing and inviting people to parties)
-and Maria Nadejde (for asking for an advice on Python and Twitter).
+support), Alexandre González Rodríguez (for organizing and inviting people to
+parties) and Maria Nadejde (for asking for an advice on Python and Twitter).
