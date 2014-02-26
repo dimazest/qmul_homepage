@@ -15,8 +15,9 @@ THEME = 'flasky'
 
 SECTIONS = (
     ('Home', 'index.html'),
-    ('Blog', 'category/articles.html'),
-    # ('Archive', 'archives.html'),
+    # ('Blog', 'category/articles.html'),
+    ('Blog', 'archives.html'),
+    ('Pages', 'pages.html'),
     # ('Tags', 'tags.html'),
     # ('Projects', 'pages/projects.html'),
     # ('Talks', 'pages/talks.html'),
